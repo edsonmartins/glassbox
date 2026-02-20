@@ -174,29 +174,9 @@ O Claude ira automaticamente:
 
 Enquanto o Claude investiga, a TUI mostra tudo em tempo real nos 4 paineis:
 
-```
-┌─ GlassBox ──── com.example.App ──── Tokens: 112 ~$0.003 ─────────────┐
-│                                                                        │
-│  ┌─ [SOURCE] ──────────────────────┐  ┌─ [VARIABLES] ───────────────┐ │
-│  │  45 │   public void criarPedido │  │ ▸ dto: PedidoDTO {id=338}   │ │
-│  │  46 │     PedidoDTO dto) {      │  │   cliente: null  ⚠          │ │
-│  │  47 │▸    Cliente cliente =     │  │   pedidoRepo: PedidoRepo... │ │
-│  │  48 │     clienteRepo.findBy... │  │                             │ │
-│  │  49 │◆    cliente.getNome();    │  │ ── Watch ──                 │ │
-│  │                                 │  │   dto.getClienteId() = 999  │ │
-│  └─────────────────────────────────┘  └─────────────────────────────┘ │
-│  ┌─ [AGENT LOG] ───────────────────┐  ┌─ [SIDE INFO] ──────────────┐ │
-│  │ 14:32:04 debug/catch NPE        │  │ Stack: criarPedido:47      │ │
-│  │ 14:32:05 debug/continue         │  │        PedidoController:23 │ │
-│  │ 14:32:06 ⚡ NPE caught! line 47 │  │ Thread: http-exec-1        │ │
-│  │ 14:32:07 debug/stacktrace       │  │ Breakpoints: 1 active      │ │
-│  │ 14:32:08 debug/locals           │  │ Bugs: 1 found              │ │
-│  │ 14:32:09 Diagnosis: NPE-001 HIGH│  │                             │ │
-│  └─────────────────────────────────┘  └─────────────────────────────┘ │
-│  ● NPE ── ● stk ── ● loc ── ● diag ── ● fix          3.2s, 6 calls │
-│  AUTONOMOUS │ [Tab]Mode [1-4]Panel [/]Cmd [q]Quit                     │
-└───────────────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="documentos/tui-screenshot.svg" alt="GlassBox TUI - Interface de terminal" width="860"/>
+</p>
 
 ### Passo 5: Interagir (opcional)
 

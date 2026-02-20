@@ -1,0 +1,284 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 520" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace">
+  <defs>
+    <linearGradient id="termBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1b26"/>
+      <stop offset="100%" stop-color="#16161e"/>
+    </linearGradient>
+    <filter id="glow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <clipPath id="roundClip">
+      <rect width="860" height="520" rx="10"/>
+    </clipPath>
+  </defs>
+
+  <!-- Terminal window frame -->
+  <g filter="url(#glow)">
+    <rect width="860" height="520" rx="10" fill="url(#termBg)"/>
+  </g>
+  <rect width="860" height="520" rx="10" fill="none" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- ===== TITLE BAR ===== -->
+  <rect x="1" y="1" width="858" height="32" rx="10" fill="#24283b"/>
+  <rect x="1" y="20" width="858" height="13" fill="#24283b"/>
+  <line x1="0" y1="33" x2="860" y2="33" stroke="#3b4261" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="18" cy="17" r="5.5" fill="#f7768e"/>
+  <circle cx="36" cy="17" r="5.5" fill="#e0af68"/>
+  <circle cx="54" cy="17" r="5.5" fill="#9ece6a"/>
+
+  <!-- Title text -->
+  <text x="80" y="21" fill="#7aa2f7" font-size="12" font-weight="700">GlassBox</text>
+  <text x="152" y="21" fill="#565f89" font-size="12">────</text>
+  <text x="190" y="21" fill="#c0caf5" font-size="11">com.example.App</text>
+  <text x="340" y="21" fill="#565f89" font-size="12">────</text>
+  <text x="380" y="21" fill="#9ece6a" font-size="11">Tokens: 112</text>
+  <text x="478" y="21" fill="#e0af68" font-size="11">~$0.003</text>
+
+  <!-- ===== SOURCE PANEL (top-left) ===== -->
+  <rect x="12" y="42" width="410" height="195" rx="6" fill="#1a1b26" stroke="#3b4261" stroke-width="1"/>
+  <!-- Panel header -->
+  <rect x="12" y="42" width="410" height="24" rx="6" fill="#24283b"/>
+  <rect x="12" y="56" width="410" height="10" fill="#24283b"/>
+  <text x="24" y="59" fill="#7aa2f7" font-size="11" font-weight="600">[SOURCE]</text>
+  <text x="100" y="59" fill="#565f89" font-size="10">PedidoService.java</text>
+
+  <!-- Source code lines -->
+  <!-- Line 45 -->
+  <text x="24" y="84" fill="#565f89" font-size="11">45</text>
+  <text x="52" y="84" fill="#3b4261" font-size="11">│</text>
+  <text x="64" y="84" fill="#bb9af7" font-size="11">public</text>
+  <text x="108" y="84" fill="#bb9af7" font-size="11">void</text>
+  <text x="142" y="84" fill="#7aa2f7" font-size="11">criarPedido</text>
+  <text x="230" y="84" fill="#c0caf5" font-size="11">(</text>
+
+  <!-- Line 46 -->
+  <text x="24" y="102" fill="#565f89" font-size="11">46</text>
+  <text x="52" y="102" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="102" fill="#2ac3de" font-size="11">PedidoDTO</text>
+  <text x="160" y="102" fill="#c0caf5" font-size="11">dto) {</text>
+
+  <!-- Line 47 - CURRENT LINE (highlighted) -->
+  <rect x="13" y="108" width="408" height="18" rx="2" fill="#283457" opacity="0.7"/>
+  <text x="24" y="122" fill="#c0caf5" font-size="11">47</text>
+  <text x="52" y="122" fill="#e0af68" font-size="11">▸</text>
+  <text x="64" y="122" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="122" fill="#2ac3de" font-size="11">Cliente</text>
+  <text x="136" y="122" fill="#c0caf5" font-size="11">cliente =</text>
+
+  <!-- Line 48 -->
+  <text x="24" y="142" fill="#565f89" font-size="11">48</text>
+  <text x="52" y="142" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="142" fill="#c0caf5" font-size="11">clienteRepo.</text>
+  <text x="168" y="142" fill="#7aa2f7" font-size="11">findBy</text>
+  <text x="212" y="142" fill="#565f89" font-size="11">...</text>
+
+  <!-- Line 49 - has breakpoint -->
+  <text x="24" y="162" fill="#565f89" font-size="11">49</text>
+  <text x="52" y="162" fill="#f7768e" font-size="12">◆</text>
+  <text x="64" y="162" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="162" fill="#c0caf5" font-size="11">cliente.</text>
+  <text x="140" y="162" fill="#7aa2f7" font-size="11">getNome</text>
+  <text x="196" y="162" fill="#c0caf5" font-size="11">();</text>
+
+  <!-- Line 50 -->
+  <text x="24" y="182" fill="#565f89" font-size="11">50</text>
+  <text x="52" y="182" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="182" fill="#2ac3de" font-size="11">Pedido</text>
+  <text x="128" y="182" fill="#c0caf5" font-size="11">pedido =</text>
+  <text x="200" y="182" fill="#bb9af7" font-size="11">new</text>
+  <text x="228" y="182" fill="#2ac3de" font-size="11">Pedido</text>
+  <text x="276" y="182" fill="#c0caf5" font-size="11">();</text>
+
+  <!-- Line 51 -->
+  <text x="24" y="202" fill="#565f89" font-size="11">51</text>
+  <text x="52" y="202" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="202" fill="#c0caf5" font-size="11">pedido.</text>
+  <text x="136" y="202" fill="#7aa2f7" font-size="11">setCliente</text>
+  <text x="220" y="202" fill="#c0caf5" font-size="11">(cliente);</text>
+
+  <!-- Line 52 -->
+  <text x="24" y="222" fill="#565f89" font-size="11">52</text>
+  <text x="52" y="222" fill="#3b4261" font-size="11">│</text>
+  <text x="80" y="222" fill="#c0caf5" font-size="11">}</text>
+
+  <!-- ===== VARIABLES PANEL (top-right) ===== -->
+  <rect x="434" y="42" width="414" height="195" rx="6" fill="#1a1b26" stroke="#3b4261" stroke-width="1"/>
+  <rect x="434" y="42" width="414" height="24" rx="6" fill="#24283b"/>
+  <rect x="434" y="56" width="414" height="10" fill="#24283b"/>
+  <text x="446" y="59" fill="#9ece6a" font-size="11" font-weight="600">[VARIABLES]</text>
+  <text x="548" y="59" fill="#565f89" font-size="10">frame 0</text>
+
+  <!-- Variable: dto (selected, expanded) -->
+  <rect x="435" y="69" width="412" height="18" rx="2" fill="#283457" opacity="0.5"/>
+  <text x="446" y="83" fill="#9ece6a" font-size="11">▸</text>
+  <text x="460" y="83" fill="#c0caf5" font-size="11">dto</text>
+  <text x="488" y="83" fill="#565f89" font-size="11">:</text>
+  <text x="498" y="83" fill="#2ac3de" font-size="11">PedidoDTO</text>
+  <text x="580" y="83" fill="#565f89" font-size="11">{id=338}</text>
+
+  <!-- Variable: cliente (null, alert) -->
+  <text x="460" y="103" fill="#c0caf5" font-size="11">cliente</text>
+  <text x="520" y="103" fill="#565f89" font-size="11">:</text>
+  <text x="530" y="103" fill="#f7768e" font-size="11" font-weight="600">null</text>
+  <text x="564" y="103" fill="#e0af68" font-size="12">⚠</text>
+
+  <!-- Variable: pedidoRepo -->
+  <text x="460" y="123" fill="#c0caf5" font-size="11">pedidoRepo</text>
+  <text x="540" y="123" fill="#565f89" font-size="11">:</text>
+  <text x="550" y="123" fill="#2ac3de" font-size="11">PedidoRepo...</text>
+
+  <!-- Variable: clienteRepo -->
+  <text x="460" y="143" fill="#c0caf5" font-size="11">clienteRepo</text>
+  <text x="548" y="143" fill="#565f89" font-size="11">:</text>
+  <text x="558" y="143" fill="#2ac3de" font-size="11">ClienteRepo...</text>
+
+  <!-- Watch section separator -->
+  <line x1="446" y1="162" x2="836" y2="162" stroke="#3b4261" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="446" y="178" fill="#e0af68" font-size="10" font-weight="600">WATCH</text>
+
+  <!-- Watch expression -->
+  <text x="460" y="198" fill="#bb9af7" font-size="11">dto.getClienteId()</text>
+  <text x="618" y="198" fill="#565f89" font-size="11">=</text>
+  <text x="630" y="198" fill="#ff9e64" font-size="11">999</text>
+
+  <!-- Watch expression 2 -->
+  <text x="460" y="218" fill="#bb9af7" font-size="11">cliente</text>
+  <text x="520" y="218" fill="#565f89" font-size="11">=</text>
+  <text x="532" y="218" fill="#f7768e" font-size="11">null</text>
+
+  <!-- ===== AGENT LOG PANEL (bottom-left) ===== -->
+  <rect x="12" y="247" width="410" height="195" rx="6" fill="#1a1b26" stroke="#3b4261" stroke-width="1"/>
+  <rect x="12" y="247" width="410" height="24" rx="6" fill="#24283b"/>
+  <rect x="12" y="261" width="410" height="10" fill="#24283b"/>
+  <text x="24" y="264" fill="#e0af68" font-size="11" font-weight="600">[AGENT LOG]</text>
+  <text x="124" y="264" fill="#565f89" font-size="10">6 actions</text>
+
+  <!-- Log entries -->
+  <text x="24" y="290" fill="#565f89" font-size="10.5">14:32:04</text>
+  <text x="92" y="290" fill="#7aa2f7" font-size="10.5">debug/catch</text>
+  <text x="176" y="290" fill="#c0caf5" font-size="10.5">NullPointerException</text>
+
+  <text x="24" y="308" fill="#565f89" font-size="10.5">14:32:05</text>
+  <text x="92" y="308" fill="#7aa2f7" font-size="10.5">debug/continue</text>
+
+  <text x="24" y="326" fill="#565f89" font-size="10.5">14:32:06</text>
+  <text x="92" y="326" fill="#f7768e" font-size="11">⚡</text>
+  <text x="108" y="326" fill="#f7768e" font-size="10.5" font-weight="600">NPE caught!</text>
+  <text x="196" y="326" fill="#c0caf5" font-size="10.5">line 47</text>
+
+  <text x="24" y="344" fill="#565f89" font-size="10.5">14:32:07</text>
+  <text x="92" y="344" fill="#7aa2f7" font-size="10.5">debug/stacktrace</text>
+  <text x="214" y="344" fill="#565f89" font-size="10.5">→ 5 frames</text>
+
+  <text x="24" y="362" fill="#565f89" font-size="10.5">14:32:08</text>
+  <text x="92" y="362" fill="#7aa2f7" font-size="10.5">debug/locals</text>
+  <text x="186" y="362" fill="#565f89" font-size="10.5">→ 4 vars</text>
+
+  <text x="24" y="380" fill="#565f89" font-size="10.5">14:32:09</text>
+  <text x="92" y="380" fill="#7aa2f7" font-size="10.5">debug/evaluate</text>
+  <text x="204" y="380" fill="#c0caf5" font-size="10.5">findById(999)</text>
+
+  <text x="24" y="398" fill="#565f89" font-size="10.5">14:32:10</text>
+  <text x="92" y="398" fill="#9ece6a" font-size="10.5" font-weight="600">Diagnosis:</text>
+  <text x="170" y="398" fill="#ff9e64" font-size="10.5">NPE-001</text>
+  <text x="234" y="398" fill="#f7768e" font-size="10.5" font-weight="600">HIGH</text>
+
+  <text x="24" y="416" fill="#565f89" font-size="10.5">14:32:11</text>
+  <text x="92" y="416" fill="#9ece6a" font-size="10.5" font-weight="600">Fix proposed:</text>
+  <text x="190" y="416" fill="#c0caf5" font-size="10.5">orElseThrow()</text>
+
+  <!-- ===== SIDE INFO PANEL (bottom-right) ===== -->
+  <rect x="434" y="247" width="414" height="195" rx="6" fill="#1a1b26" stroke="#3b4261" stroke-width="1"/>
+  <rect x="434" y="247" width="414" height="24" rx="6" fill="#24283b"/>
+  <rect x="434" y="261" width="414" height="10" fill="#24283b"/>
+  <text x="446" y="264" fill="#ff9e64" font-size="11" font-weight="600">[SIDE INFO]</text>
+
+  <!-- Stack trace -->
+  <text x="446" y="290" fill="#565f89" font-size="10.5" font-weight="600">Stack Trace</text>
+  <text x="460" y="308" fill="#c0caf5" font-size="10.5">→ criarPedido</text>
+  <text x="564" y="308" fill="#565f89" font-size="10.5">:47</text>
+  <text x="460" y="326" fill="#565f89" font-size="10.5">  PedidoController</text>
+  <text x="590" y="326" fill="#565f89" font-size="10.5">:23</text>
+  <text x="460" y="344" fill="#565f89" font-size="10.5">  DispatcherServlet</text>
+  <text x="596" y="344" fill="#565f89" font-size="10.5">:1089</text>
+
+  <!-- Thread info -->
+  <line x1="446" y1="356" x2="836" y2="356" stroke="#3b4261" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="446" y="374" fill="#565f89" font-size="10.5" font-weight="600">Thread</text>
+  <text x="500" y="374" fill="#2ac3de" font-size="10.5">http-nio-8080-exec-1</text>
+
+  <!-- Breakpoints -->
+  <text x="446" y="394" fill="#565f89" font-size="10.5" font-weight="600">Breakpoints</text>
+  <text x="530" y="394" fill="#f7768e" font-size="10.5">◆</text>
+  <text x="542" y="394" fill="#c0caf5" font-size="10.5">1 active</text>
+
+  <!-- Bugs -->
+  <text x="446" y="414" fill="#565f89" font-size="10.5" font-weight="600">Bugs</text>
+  <text x="484" y="414" fill="#f7768e" font-size="10.5" font-weight="600">1 found</text>
+
+  <!-- Exception -->
+  <text x="446" y="434" fill="#565f89" font-size="10.5" font-weight="600">Exception</text>
+  <text x="518" y="434" fill="#f7768e" font-size="10.5">NullPointerException</text>
+
+  <!-- ===== TIMELINE BAR ===== -->
+  <rect x="0" y="450" width="860" height="30" fill="#24283b"/>
+  <line x1="0" y1="450" x2="860" y2="450" stroke="#3b4261" stroke-width="1"/>
+
+  <!-- Timeline dots and labels -->
+  <circle cx="40" cy="465" r="4" fill="#f7768e"/>
+  <text x="52" y="469" fill="#f7768e" font-size="9">NPE</text>
+  <line x1="78" y1="465" x2="120" y2="465" stroke="#3b4261" stroke-width="1.5"/>
+
+  <circle cx="130" cy="465" r="4" fill="#7aa2f7"/>
+  <text x="142" y="469" fill="#7aa2f7" font-size="9">stk</text>
+  <line x1="162" y1="465" x2="204" y2="465" stroke="#3b4261" stroke-width="1.5"/>
+
+  <circle cx="214" cy="465" r="4" fill="#7aa2f7"/>
+  <text x="226" y="469" fill="#7aa2f7" font-size="9">loc</text>
+  <line x1="246" y1="465" x2="288" y2="465" stroke="#3b4261" stroke-width="1.5"/>
+
+  <circle cx="298" cy="465" r="4" fill="#9ece6a"/>
+  <text x="310" y="469" fill="#9ece6a" font-size="9">diag</text>
+  <line x1="340" y1="465" x2="382" y2="465" stroke="#3b4261" stroke-width="1.5"/>
+
+  <circle cx="392" cy="465" r="4" fill="#9ece6a"/>
+  <text x="404" y="469" fill="#9ece6a" font-size="9">fix</text>
+
+  <!-- Duration -->
+  <text x="760" y="469" fill="#565f89" font-size="10" text-anchor="end">3.2s, 6 calls</text>
+
+  <!-- ===== STATUS BAR ===== -->
+  <rect x="0" y="480" width="860" height="40" rx="0" fill="#1a1b26"/>
+  <rect x="0" y="510" width="860" height="10" rx="10" fill="#1a1b26"/>
+  <line x1="0" y1="480" x2="860" y2="480" stroke="#3b4261" stroke-width="1"/>
+
+  <!-- Mode badge -->
+  <rect x="16" y="488" width="110" height="20" rx="4" fill="#9ece6a" opacity="0.15"/>
+  <text x="71" y="502" text-anchor="middle" fill="#9ece6a" font-size="11" font-weight="700">AUTONOMOUS</text>
+
+  <!-- Separator -->
+  <text x="138" y="502" fill="#3b4261" font-size="11">│</text>
+
+  <!-- Hotkeys -->
+  <rect x="152" y="490" width="40" height="16" rx="3" fill="#3b4261" opacity="0.5"/>
+  <text x="172" y="502" text-anchor="middle" fill="#c0caf5" font-size="9.5" font-weight="600">Tab</text>
+  <text x="200" y="502" fill="#565f89" font-size="10">Mode</text>
+
+  <rect x="240" y="490" width="30" height="16" rx="3" fill="#3b4261" opacity="0.5"/>
+  <text x="255" y="502" text-anchor="middle" fill="#c0caf5" font-size="9.5" font-weight="600">1-4</text>
+  <text x="278" y="502" fill="#565f89" font-size="10">Panel</text>
+
+  <rect x="318" y="490" width="18" height="16" rx="3" fill="#3b4261" opacity="0.5"/>
+  <text x="327" y="502" text-anchor="middle" fill="#c0caf5" font-size="9.5" font-weight="600">/</text>
+  <text x="344" y="502" fill="#565f89" font-size="10">Cmd</text>
+
+  <rect x="378" y="490" width="18" height="16" rx="3" fill="#3b4261" opacity="0.5"/>
+  <text x="387" y="502" text-anchor="middle" fill="#c0caf5" font-size="9.5" font-weight="600">s</text>
+  <text x="404" y="502" fill="#565f89" font-size="10">Save</text>
+
+  <rect x="440" y="490" width="18" height="16" rx="3" fill="#3b4261" opacity="0.5"/>
+  <text x="449" y="502" text-anchor="middle" fill="#c0caf5" font-size="9.5" font-weight="600">q</text>
+  <text x="466" y="502" fill="#565f89" font-size="10">Quit</text>
+</svg>
