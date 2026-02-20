@@ -96,18 +96,18 @@ cargo build --release
 
 O binario da TUI estara em `packages/tui/target/release/glassbox-tui`.
 
-## Uso
+## Guia de Uso
 
-### Configuracao no Claude Desktop
+### Passo 1: Configurar o MCP Server no Claude Desktop
 
-Adicione ao `claude_desktop_config.json`:
+O GlassBox funciona como um servidor MCP que o Claude (ou outro cliente MCP) utiliza para controlar o debugger. Adicione ao arquivo `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "glassbox": {
       "command": "node",
-      "args": ["caminho/para/packages/mcp-server/dist/index.js", "--tui"],
+      "args": ["/caminho/absoluto/para/packages/mcp-server/dist/index.js", "--tui"],
       "env": {
         "GLASSBOX_TUI": "1"
       }
@@ -116,51 +116,255 @@ Adicione ao `claude_desktop_config.json`:
 }
 ```
 
-### Executando a TUI
+> **Nota:** A flag `--tui` (ou a variavel `GLASSBOX_TUI=1`) ativa a bridge de comunicacao via Unix socket. Sem ela, os eventos sao emitidos apenas via stderr.
+
+Ao iniciar, o servidor imprime o caminho do socket no stderr:
+```
+glassbox-tui-socket: /tmp/glassbox-abc123.sock
+```
+
+### Passo 2: Abrir a TUI
+
+Em outro terminal, inicie a TUI para acompanhar a sessao de debug em tempo real:
 
 **Modo Socket** (recomendado — bidirecional, permite enviar comandos):
 
 ```bash
-# Auto-discovery do socket (busca /tmp/glassbox-*.sock)
+# Auto-discovery: busca automaticamente /tmp/glassbox-*.sock
 glassbox-tui --input socket
 
 # Ou especificando o caminho do socket
 glassbox-tui --input socket --socket /tmp/glassbox-abc123.sock
 ```
 
-**Modo Pipe** (somente leitura):
+**Modo Pipe** (somente leitura, util para replay de sessoes):
 
 ```bash
-# Pipe de um arquivo JSONL
-cat sessao.jsonl | glassbox-tui
+# Replay de um arquivo JSONL gravado
+cat sessao-gravada.jsonl | glassbox-tui
 
 # Pipe direto do stderr do MCP server
-comando-mcp 2>&1 | glassbox-tui
+node dist/index.js 2>&1 | glassbox-tui
 ```
 
-### Variaveis de Ambiente
+### Passo 3: Pedir ao Claude para debugar
+
+Com o MCP server configurado, basta pedir ao Claude para investigar um bug. Exemplo:
+
+> "Minha aplicacao Spring Boot esta lancando NullPointerException no endpoint /api/pedidos. Use o GlassBox para debugar."
+
+O Claude ira automaticamente:
+
+1. **Lancar a aplicacao** via `debug/launch`:
+   ```
+   project_dir: "/caminho/do/projeto"
+   build_tool: "maven"
+   main_class: "com.example.Application"
+   ```
+
+2. **Configurar exception handler** via `debug/catch`:
+   ```
+   exception_class: "java.lang.NullPointerException"
+   ```
+
+3. **Continuar execucao** via `debug/continue` e aguardar a excecao
+
+4. **Investigar** quando a excecao for capturada:
+   - `debug/stacktrace` — ver a pilha de chamadas
+   - `debug/locals` — inspecionar variaveis locais
+   - `debug/inspect` — examinar objetos em profundidade
+   - `debug/evaluate` — avaliar expressoes no contexto
+   - `debug/source` — ver o codigo-fonte ao redor
+
+5. **Diagnosticar** o bug com severidade e causa raiz
+
+6. **Propor um fix** com diff do codigo corrigido
+
+### Passo 4: Acompanhar pela TUI
+
+Enquanto o Claude investiga, a TUI mostra tudo em tempo real nos 4 paineis:
+
+```
+┌─ GlassBox ──── com.example.App ──── Tokens: 112 ~$0.003 ─────────────┐
+│                                                                        │
+│  ┌─ [SOURCE] ──────────────────────┐  ┌─ [VARIABLES] ───────────────┐ │
+│  │  45 │   public void criarPedido │  │ ▸ dto: PedidoDTO {id=338}   │ │
+│  │  46 │     PedidoDTO dto) {      │  │   cliente: null  ⚠          │ │
+│  │  47 │▸    Cliente cliente =     │  │   pedidoRepo: PedidoRepo... │ │
+│  │  48 │     clienteRepo.findBy... │  │                             │ │
+│  │  49 │◆    cliente.getNome();    │  │ ── Watch ──                 │ │
+│  │                                 │  │   dto.getClienteId() = 999  │ │
+│  └─────────────────────────────────┘  └─────────────────────────────┘ │
+│  ┌─ [AGENT LOG] ───────────────────┐  ┌─ [SIDE INFO] ──────────────┐ │
+│  │ 14:32:04 debug/catch NPE        │  │ Stack: criarPedido:47      │ │
+│  │ 14:32:05 debug/continue         │  │        PedidoController:23 │ │
+│  │ 14:32:06 ⚡ NPE caught! line 47 │  │ Thread: http-exec-1        │ │
+│  │ 14:32:07 debug/stacktrace       │  │ Breakpoints: 1 active      │ │
+│  │ 14:32:08 debug/locals           │  │ Bugs: 1 found              │ │
+│  │ 14:32:09 Diagnosis: NPE-001 HIGH│  │                             │ │
+│  └─────────────────────────────────┘  └─────────────────────────────┘ │
+│  ● NPE ── ● stk ── ● loc ── ● diag ── ● fix          3.2s, 6 calls │
+│  AUTONOMOUS │ [Tab]Mode [1-4]Panel [/]Cmd [q]Quit                     │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### Passo 5: Interagir (opcional)
+
+Voce pode assumir o controle a qualquer momento:
+
+**Alternar para modo Manual** — Pressione `Tab` para assumir o controle:
+- `F5` — Continue (retomar execucao)
+- `F6` — Step Over (proxima linha)
+- `F7` — Step Into (entrar na funcao)
+- `F8` — Step Out (sair da funcao)
+
+**Usar o command prompt** — Pressione `/` para comandos interativos:
+- `eval dto.getClienteId()` — avaliar expressao Java no contexto atual
+- `watch order.getTotal()` — monitorar uma expressao (atualiza automaticamente)
+- `bp PedidoService.java:49` — adicionar/remover breakpoint
+- `inspect clienteRepo` — inspecionar um objeto em profundidade
+
+**Aceitar ou rejeitar fixes** — Quando a IA propoe uma correcao:
+- `y` — Aceitar o fix proposto
+- `n` — Rejeitar e continuar investigando
+
+**Salvar relatorio** — Pressione `s` para salvar um relatorio da sessao
+
+### Passo 6: Revisar o resultado
+
+Ao final da sessao, a TUI mostra um resumo com:
+- Numero de bugs encontrados
+- Total de tool calls e tokens utilizados
+- Estimativa de custo
+- Comparacao com debugging manual (economia estimada)
+- Duracao total da sessao
+
+---
+
+### Cenario Completo: Investigando um NullPointerException
+
+Aqui esta o fluxo tipico de uma sessao de debug completa:
+
+```
+1. [session_started]    Sessao iniciada: PedidoService (pid 1234, JDK 17)
+2. [agent_action]       AI chama debug/catch NullPointerException
+3. [agent_action]       AI chama debug/continue
+4. [app_stdout]         App: "Servidor rodando em http://localhost:8080"
+5. [exception_caught]   ⚡ NullPointerException em PedidoService.java:47
+6. [agent_thinking]     "Investigando NullPointerException no metodo criarPedido..."
+7. [agent_action]       AI chama debug/stacktrace → 5 frames
+8. [agent_action]       AI chama debug/locals → dto (ok), cliente (null ⚠)
+9. [agent_action]       AI chama debug/evaluate "clienteRepo.findById(999)" → Optional.empty
+10. [diagnosis]         Bug NPE-001 (HIGH): cliente e null porque findById retorna empty
+11. [fix_proposed]      Substituir .orElse(null) por .orElseThrow(...)
+12. [fix_applied]       Usuario aceitou o fix (y)
+13. [session_ended]     112 tokens, 1 bug, 3.2s, custo ~$0.003
+```
+
+### Cenario: Modo Colaborativo
+
+```
+1. [session_started]    Sessao iniciada em modo Autonomous
+2. [exception_caught]   IllegalStateException em OrderController.java:85
+3. [control_change]     Usuario pressionou Tab → modo Manual
+4. [manual_step]        Usuario: F6 (step over) → linha 86
+5. [manual_step]        Usuario: F7 (step into) → OrderService.java:142
+6. [manual_eval]        Usuario: /eval order.getStatus() → "SHIPPED"
+7. [control_change]     Usuario pressionou Tab → devolveu controle para AI
+8. [agent_thinking]     "O usuario descobriu que order.status e SHIPPED..."
+9. [diagnosis]          Bug ISE-001 (MEDIUM): transicao de estado invalida
+10. [session_ended]     57 tokens, 1 bug
+```
+
+---
+
+### Referencia Rapida
+
+#### Variaveis de Ambiente
 
 | Variavel | Valor | Descricao |
 |----------|-------|-----------|
 | `GLASSBOX_TUI` | `1` | Ativa a bridge TUI no MCP server |
 
-### Hotkeys da TUI
+#### Argumentos CLI da TUI
 
-| Tecla | Acao |
-|-------|------|
-| `Tab` | Alternar modo (Autonomous/Manual/Collaborative) |
-| `1-4` | Selecionar painel ativo |
-| `j/k` | Scroll ou selecao de variaveis |
-| `/` | Abrir command prompt |
-| `w` | Adicionar watch expression |
-| `F5` | Continue (modo Manual) |
-| `F6` | Step Over (modo Manual) |
-| `F7` | Step Into (modo Manual) |
-| `F8` | Step Out (modo Manual) |
-| `y` | Aceitar fix proposto |
-| `n` | Rejeitar fix proposto |
-| `s` | Salvar relatorio |
-| `q` | Sair |
+| Argumento | Padrao | Descricao |
+|-----------|--------|-----------|
+| `--input` | `stdin` | Fonte de entrada: `stdin` (pipe) ou `socket` (bidirecional) |
+| `--socket` | auto-discovery | Caminho do Unix socket (quando `--input socket`) |
+
+#### Hotkeys da TUI
+
+| Tecla | Acao | Modo |
+|-------|------|------|
+| `Tab` | Alternar modo de controle | Todos |
+| `1-4` | Selecionar painel ativo | Todos |
+| `j/k` | Scroll / selecao de variaveis | Todos |
+| `/` | Abrir command prompt | Todos |
+| `w` | Adicionar watch expression | Todos |
+| `Enter` | Expandir/colapsar variavel | Painel Variables |
+| `x` | Remover watch selecionado | Painel Variables |
+| `F5` | Continue | Manual |
+| `F6` | Step Over | Manual |
+| `F7` | Step Into | Manual |
+| `F8` | Step Out | Manual |
+| `y` | Aceitar fix proposto | Quando fix disponivel |
+| `n` | Rejeitar fix proposto | Quando fix disponivel |
+| `s` | Salvar relatorio | Todos |
+| `q` | Sair | Todos |
+
+#### Comandos do Prompt (`/`)
+
+| Comando | Exemplo | Descricao |
+|---------|---------|-----------|
+| `eval <expr>` | `eval dto.getClienteId()` | Avaliar expressao Java |
+| `inspect <expr>` | `inspect clienteRepo` | Inspecionar objeto |
+| `watch <expr>` | `watch order.getTotal()` | Monitorar expressao |
+| `bp <arquivo>:<linha>` | `bp PedidoService.java:49` | Toggle breakpoint |
+
+#### Ferramentas MCP Detalhadas
+
+**Lifecycle:**
+
+| Tool | Input | Descricao |
+|------|-------|-----------|
+| `debug/launch` | `project_dir`, `build_tool` (maven/gradle/manual), `main_class?`, `jvm_args?`, `port?`, `suspend?` | Compila e lanca a aplicacao Java com JDB |
+| `debug/attach` | `host?`, `port` | Conecta a uma JVM ja rodando via JDWP |
+| `debug/disconnect` | `terminate?` | Encerra a sessao de debug |
+
+**Control:**
+
+| Tool | Input | Descricao |
+|------|-------|-----------|
+| `debug/continue` | `thread_id?` | Retoma execucao ate proximo breakpoint/excecao |
+| `debug/step_over` | `thread_id` | Executa proxima linha sem entrar em funcoes |
+| `debug/step_into` | `thread_id`, `filter_jdk?` | Entra na proxima chamada de funcao |
+| `debug/step_out` | `thread_id` | Sai da funcao atual |
+
+**Breakpoints:**
+
+| Tool | Input | Descricao |
+|------|-------|-----------|
+| `debug/breakpoint` | `action` (set/remove), `file`, `line`, `condition?`, `hit_count?` | Gerencia breakpoints (suporta condicionais) |
+| `debug/catch` | `exception_class`, `caught?`, `uncaught?` | Configura catch de excecoes |
+
+**Inspection:**
+
+| Tool | Input | Descricao |
+|------|-------|-----------|
+| `debug/locals` | `thread_id`, `frame_index?`, `max_depth?` | Lista variaveis locais do frame |
+| `debug/inspect` | `expression`, `thread_id`, `max_depth?` | Inspeciona objeto em profundidade |
+| `debug/evaluate` | `expression`, `thread_id`, `frame_index?` | Avalia expressao Java no contexto |
+| `debug/stacktrace` | `thread_id`, `max_frames?`, `filter_jdk?` | Retorna pilha de chamadas |
+| `debug/threads` | `include_daemon?`, `include_system?` | Lista todas as threads da JVM |
+| `debug/classes` | `filter?` | Lista classes carregadas na JVM |
+| `debug/methods` | `class_name` | Lista metodos de uma classe |
+
+**Source:**
+
+| Tool | Input | Descricao |
+|------|-------|-----------|
+| `debug/source` | `file`, `line`, `context_lines?` | Le codigo-fonte com contexto ao redor |
 
 ## Desenvolvimento
 

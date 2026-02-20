@@ -1,0 +1,10 @@
+{"type":"session_started","ts":"2026-02-19T17:00:00.000Z","seq":0,"sessionId":"sess-err-001","src":"debugger","data":{"pid":4567,"jdkVersion":"21.0.2","mainClass":"com.example.BatchProcessor","jdwpPort":5005}}
+this is not valid json at all
+{"type":"agent_action","ts":"2026-02-19T17:00:01.000Z","seq":1,"sessionId":"sess-err-001","src":"ai","data":{"tool":"debug/catch","request":{"exception":"*"},"result":{"status":"set"},"tokensUsed":10,"durationMs":100.0}}
+{"invalid json missing closing brace
+{"type":"unknown_future_event","ts":"2026-02-19T17:00:02.000Z","seq":2,"sessionId":"sess-err-001","src":"system","data":{}}
+{"type":"exception_caught","ts":"2026-02-19T17:00:03.000Z","seq":3,"sessionId":"sess-err-001","src":"debugger","data":{"exceptionType":"java.io.IOException","message":"Connection reset","location":{"file":"BatchProcessor.java","line":55,"class":"com.example.BatchProcessor","method":"processChunk"},"thread":"worker-1","isCaught":true}}
+{"type":"error","ts":"2026-02-19T17:00:04.000Z","seq":4,"sessionId":"sess-err-001","src":"system","data":{"code":"TIMEOUT","message":"Tool execution timed out after 30s","details":"debug/stacktrace did not respond in time"}}
+{"type":"agent_thinking","ts":"2026-02-19T17:00:05.000Z","seq":5,"sessionId":"sess-err-001","src":"ai","data":{"thought":"Timeout occurred on stacktrace — retrying with a simpler approach"}}
+{"type":"agent_action","ts":"2026-02-19T17:00:06.000Z","seq":6,"sessionId":"sess-err-001","src":"ai","data":{"tool":"debug/locals","request":{"thread":"worker-1"},"result":[{"name":"connection","type":"HttpConnection","value":"null","isNull":true,"expandable":false,"alert":true}],"tokensUsed":15,"durationMs":120.0}}
+{"type":"session_ended","ts":"2026-02-19T17:00:08.000Z","seq":7,"sessionId":"sess-err-001","src":"system","data":{"durationMs":8000,"toolCalls":2,"tokensUsed":25,"estimatedCostUsd":0.001,"bugsFound":0}}

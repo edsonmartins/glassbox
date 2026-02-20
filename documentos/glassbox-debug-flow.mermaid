@@ -1,0 +1,42 @@
+---
+title: "Glassbox — Fluxo de Debug (NPE)"
+---
+sequenceDiagram
+    participant Dev as 👨‍💻 Desenvolvedor
+    participant AI as 🤖 IA (Claude)
+    participant GB as ⚙️ Glassbox
+    participant JVM as ☕ JVM
+
+    Dev->>AI: "Debug /api/pedidos, tá dando NPE"
+    AI->>GB: debug/launch (Maven, -agentlib:jdwp)
+    GB->>JVM: Inicia processo com JDWP
+    GB-->>AI: ✅ Processo iniciado, pid 12345
+
+    AI->>GB: debug/catch NullPointerException
+    GB->>JVM: Set exception breakpoint
+    GB-->>AI: ✅ Breakpoint configurado
+
+    AI->>GB: debug/continue
+    GB-->>Dev: 📡 [TUI] App rodando, aguardando exceção...
+
+    Note over Dev: Dev faz request<br/>POST /api/pedidos
+
+    JVM-->>GB: ⚡ NPE em PedidoService.java:47
+    GB-->>AI: exception_caught (NPE, line 47)
+    GB-->>Dev: 📡 [TUI] NPE capturada! IA investigando...
+
+    AI->>GB: debug/stacktrace
+    GB-->>AI: 5 frames (criarPedido:47 → ...)
+
+    AI->>GB: debug/locals
+    GB-->>AI: dto={clienteId=999}, cliente=null
+
+    AI->>GB: debug/evaluate "clienteRepo.findById(999)"
+    GB-->>AI: Optional.empty
+
+    Note over AI: IA raciocina:<br/>cliente=null porque<br/>findById retornou empty<br/>e .orElse(null) converteu
+
+    AI-->>Dev: 🐛 Bug: .orElse(null) → .orElseThrow()
+    GB-->>Dev: 📡 [TUI] Fix proposto com diff
+
+    Dev->>Dev: [A] Aplicar fix ✅

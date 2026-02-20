@@ -1,0 +1,25 @@
+---
+title: "Glassbox — Event Stream"
+---
+flowchart LR
+    subgraph Sources
+        DBG["Debugger<br/>JDB/JDWP"]
+        AGT["IA Agent<br/>via MCP"]
+        USR["Developer<br/>via TUI"]
+    end
+
+    ES["📡 Event Stream<br/>Eventos tipados JSON"]
+
+    subgraph Consumers
+        TUI["🖥️ TUI<br/>Terminal"]
+        WEB["🌐 Web UI<br/>Browser"]
+        LOG["📝 Log<br/>Arquivo"]
+    end
+
+    DBG -->|"exception_caught<br/>breakpoint_hit<br/>thread_started"| ES
+    AGT -->|"agent_action<br/>diagnosis<br/>fix_proposed"| ES
+    USR -->|"control_change<br/>manual_step<br/>watch_added"| ES
+
+    ES --> TUI
+    ES --> WEB
+    ES --> LOG

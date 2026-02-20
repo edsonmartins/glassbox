@@ -1,0 +1,54 @@
+---
+title: "Glassbox — MCP Tools"
+---
+graph LR
+    subgraph "🚀 Lifecycle"
+        launch["debug/launch"]
+        attach["debug/attach"]
+        disconnect["debug/disconnect"]
+    end
+
+    subgraph "🎯 Control"
+        cont["debug/continue"]
+        step_over["debug/step_over"]
+        step_into["debug/step_into"]
+        step_out["debug/step_out"]
+    end
+
+    subgraph "📍 Breakpoints"
+        bp_set["debug/breakpoint"]
+        bp_catch["debug/catch"]
+        bp_cond["debug/conditional_bp"]
+    end
+
+    subgraph "🔍 Inspection"
+        locals["debug/locals"]
+        inspect["debug/inspect"]
+        eval["debug/evaluate"]
+        stack["debug/stacktrace"]
+        threads["debug/threads"]
+    end
+
+    subgraph "📊 Info"
+        source["debug/source"]
+        classes["debug/classes"]
+        methods["debug/methods"]
+    end
+
+    style launch fill:#22c55e,stroke:#16a34a,color:#000
+    style attach fill:#22c55e,stroke:#16a34a,color:#000
+    style cont fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style step_over fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style step_into fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style step_out fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style bp_set fill:#f59e0b,stroke:#d97706,color:#000
+    style bp_catch fill:#f59e0b,stroke:#d97706,color:#000
+    style bp_cond fill:#f59e0b,stroke:#d97706,color:#000
+    style locals fill:#a855f7,stroke:#9333ea,color:#fff
+    style inspect fill:#a855f7,stroke:#9333ea,color:#fff
+    style eval fill:#a855f7,stroke:#9333ea,color:#fff
+    style stack fill:#a855f7,stroke:#9333ea,color:#fff
+    style threads fill:#a855f7,stroke:#9333ea,color:#fff
+    style source fill:#6b7280,stroke:#4b5563,color:#fff
+    style classes fill:#6b7280,stroke:#4b5563,color:#fff
+    style methods fill:#6b7280,stroke:#4b5563,color:#fff

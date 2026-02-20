@@ -1,0 +1,50 @@
+---
+title: "Glassbox — Arquitetura"
+---
+graph TB
+    subgraph "Seu Terminal"
+        TUI["🖥️ TUI / Web UI<br/><i>Observabilidade em tempo real</i>"]
+    end
+
+    subgraph "Glassbox Server"
+        MCP["🔌 MCP Protocol<br/><i>JSON-RPC via stdio</i>"]
+        CORE["⚙️ Debug Core<br/><i>API unificada</i>"]
+        ES["📡 Event Stream<br/><i>Eventos tipados</i>"]
+    end
+
+    subgraph "Backends"
+        JDB["☕ JDB<br/><i>Java / Kotlin / Scala</i>"]
+        DAP_PY["🐍 debugpy<br/><i>Python</i>"]
+        DAP_GO["🐹 Delve<br/><i>Go</i>"]
+        DAP_RS["🦀 lldb-dap<br/><i>Rust / C / C++</i>"]
+        DAP_JS["🟨 js-debug<br/><i>JavaScript / TS</i>"]
+    end
+
+    subgraph "Sua Aplicação"
+        APP["🎯 JVM / Runtime<br/><i>O programa sendo debugado</i>"]
+    end
+
+    AI["🤖 IA (Claude, GPT, etc)<br/><i>Agente de debug</i>"]
+
+    AI <-->|"MCP tools"| MCP
+    MCP <--> CORE
+    CORE <--> ES
+    ES -->|"eventos"| TUI
+    CORE <--> JDB
+    CORE -.->|"futuro"| DAP_PY
+    CORE -.->|"futuro"| DAP_GO
+    CORE -.->|"futuro"| DAP_RS
+    CORE -.->|"futuro"| DAP_JS
+    JDB <-->|"JDWP"| APP
+
+    style AI fill:#7c3aed,stroke:#5b21b6,color:#fff
+    style TUI fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style MCP fill:#f59e0b,stroke:#d97706,color:#000
+    style CORE fill:#f59e0b,stroke:#d97706,color:#000
+    style ES fill:#f59e0b,stroke:#d97706,color:#000
+    style JDB fill:#22c55e,stroke:#16a34a,color:#000
+    style APP fill:#ef4444,stroke:#dc2626,color:#fff
+    style DAP_PY fill:#374151,stroke:#6b7280,color:#9ca3af
+    style DAP_GO fill:#374151,stroke:#6b7280,color:#9ca3af
+    style DAP_RS fill:#374151,stroke:#6b7280,color:#9ca3af
+    style DAP_JS fill:#374151,stroke:#6b7280,color:#9ca3af

@@ -1,0 +1,21 @@
+---
+title: "Glassbox — Modos de Operação"
+---
+stateDiagram-v2
+    [*] --> Autonomo: Sessão iniciada
+
+    Autonomo: 🤖 IA Autônoma (Default)
+    Autonomo: IA investiga, dev observa
+
+    Manual: 🧑 Controle Manual
+    Manual: Dev dirige, IA sugere
+
+    Colaborativo: 🤝 Colaborativo
+    Colaborativo: Ambos agem, turno compartilhado
+
+    Autonomo --> Manual: Dev pressiona [R]
+    Manual --> Autonomo: Dev pressiona [R]
+    Autonomo --> Colaborativo: Dev seta breakpoint
+    Manual --> Colaborativo: IA pede permissão
+    Colaborativo --> Autonomo: Dev devolve controle
+    Colaborativo --> Manual: IA pausa ações
