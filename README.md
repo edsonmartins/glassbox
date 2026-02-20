@@ -6,19 +6,9 @@ GlassBox e um debugger de JVM controlado por inteligencia artificial, construido
 
 ## Arquitetura
 
-```
-┌─────────────┐     MCP (stdio)     ┌──────────────────┐     JDWP      ┌─────────┐
-│   Claude /   │◄──────────────────►│  GlassBox MCP    │◄────────────►│   JVM   │
-│   AI Client  │   JSON-RPC         │  Server (TS)     │   JDB        │  (Java) │
-└─────────────┘                     └────────┬─────────┘              └─────────┘
-                                             │
-                                    Unix Socket (JSONL)
-                                             │
-                                    ┌────────▼─────────┐
-                                    │  GlassBox TUI    │
-                                    │  (Rust/Ratatui)  │
-                                    └──────────────────┘
-```
+<p align="center">
+  <img src="documentos/architecture.svg" alt="Arquitetura GlassBox" width="820"/>
+</p>
 
 O projeto e um monorepo com dois pacotes:
 
